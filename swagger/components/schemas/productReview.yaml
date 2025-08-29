@@ -1,0 +1,36 @@
+title: ProductReview
+type: object
+required:
+  - _id
+  - productId
+  - userName
+  - comment
+  - rating
+  - daysAgo
+properties:
+  _id:
+    description: 'MongoDB ObjectId'
+    type: string
+    example: '68adc76106ad3fc933db5721'
+  productId:
+    description: 'ID of the product this review belongs to'
+    type: string
+    example: '0'
+  userName:
+    description: 'Name of the user who left the review'
+    type: string
+    example: 'Olga'
+  comment:
+    description: 'Review text about the product'
+    type: string
+    example: 'Very effective for mild pain relief.'
+  rating:
+    description: 'Star rating (1-5)'
+    type: integer
+    minimum: 1
+    maximum: 5
+    example: 5
+  daysAgo:
+    description: 'How many days ago the review was left'
+    type: integer
+    example: 2

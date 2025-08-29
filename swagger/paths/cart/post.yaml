@@ -1,0 +1,18 @@
+tags:
+  - Cart
+summary: Checkout
+description: "Process the checkout and clear the user's cart"
+operationId: checkoutCart
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: 'Order successfully placed'
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/Cart.yaml#/CheckoutResponse'
+  '400':
+    $ref: '../../components/responses/400.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'

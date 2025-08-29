@@ -1,0 +1,21 @@
+tags:
+  - Cart
+summary: Update Cart
+description: "Update the quantity of items in the user's cart"
+operationId: updateCart
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    application/json:
+      schema:
+        $ref: '../../components/schemas/Cart.yaml#/UpdateCartRequest'
+responses:
+  '200':
+    description: 'Updated cart'
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/Cart.yaml#/Cart'
+  '401':
+    $ref: '../../components/responses/401.yaml'

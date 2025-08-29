@@ -1,0 +1,37 @@
+title: Store
+type: object
+required:
+  - _id
+  - name
+  - address
+  - city
+  - phone
+properties:
+  _id:
+    description: 'MongoDB ObjectId'
+    type: string
+    example: '68ac790bab129d55f00b6382'
+  name:
+    description: 'Pharmacy / Store name'
+    type: string
+    example: 'Wellness Pharma'
+  address:
+    description: 'Street address of the store'
+    type: string
+    example: 'Reitarska St, 17'
+  city:
+    description: 'City where the store is located'
+    type: string
+    example: 'Kyiv'
+  phone:
+    description: 'Contact phone number'
+    type: string
+    example: '045-256-9564'
+  rating:
+    description: 'Average rating of the store'
+    type: integer
+    example: 2
+  isOpen:
+    description: 'Indicates whether the store is currently open'
+    type: boolean
+    example: true

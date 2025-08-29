@@ -1,0 +1,17 @@
+tags:
+  - Stores
+summary: Get Stores
+description: 'Get all stores'
+operationId: getStores
+security: []
+responses:
+  '200':
+    description: 'Return list of stores'
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '../../components/schemas/store.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'

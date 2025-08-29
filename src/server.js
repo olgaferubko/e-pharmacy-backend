@@ -1,19 +1,52 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import dotenv from "dotenv";
 
 import { getEnvVar } from './utils/getEnvVar.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { swaggerConfig } from './middlewares/swaggerConfig.js';
+
+import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
+import reviewRoutes from './routes/reviews.js';
+import storeRoutes from './routes/stores.js';
+import productRoutes from './routes/products.js';
+import cartRoutes from './routes/cart.js';
 
 
 dotenv.config();
-const PORT = Number(getEnvVar('PORT', '3000'));
 
-export const startServer = () => {
+export async function setupServer() {
+  const PORT = Number(getEnvVar('PORT', '3000'));
   const app = express();
 
+  const swagger = await swaggerConfig();
+  app.use('/api-docs', ...swagger);
+
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'https://e-pharmacy-frontend.vercel.app',
+  ];
+
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: true,
+    }),
+  );
+
   app.use(express.json());
-  app.use(cors());
+  app.use(cookieParser());
 
   app.use(
     pino({
@@ -23,26 +56,22 @@ export const startServer = () => {
     }),
   );
 
-  app.get('/', (req, res) => {
-    res.json({
-      message: 'Hello world!',
-    });
-  });
+  app.use('/api/user', authRoutes);
+  app.use('/api/user', userRoutes);
+  app.use('/api/customer-reviews', reviewRoutes);
+  app.use('/api/stores', storeRoutes);
+  app.use('/api/products', productRoutes);
+  app.use('/api/cart', cartRoutes);
 
-  app.use('*', (req, res, next) => {
-    res.status(404).json({
-      message: 'Not found',
-    });
-  });
 
-  app.use((err, req, res, next) => {
-    res.status(500).json({
-      message: 'Something went wrong',
-      error: err.message,
-    });
-  });
+  app.use(notFoundHandler);
+  app.use(errorHandler);
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+    console.log(
+      `Swagger docs available at http://localhost:${PORT}/api-docs`,
+    );
   });
 };
+

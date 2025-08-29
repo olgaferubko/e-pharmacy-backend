@@ -1,4 +1,4 @@
-import { PharmaciesCollection } from '../db/models/pharmacy.js';
+import { PharmaciesCollection } from '../db/models/pharmacies.js';
 
 export const getStoresList = async () => {
   return await PharmaciesCollection.find({});

@@ -1,0 +1,1142 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "E-Pharmacy API",
+    "description": "API documentation for E-Pharmacy project",
+    "version": "1.0.0",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://e-pharmacy-backend.onrender.com",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Endpoints for authentication and registration"
+    },
+    {
+      "name": "Users",
+      "description": "Endpoints for user information"
+    },
+    {
+      "name": "Products",
+      "description": "Endpoints for products"
+    },
+    {
+      "name": "Product Reviews",
+      "description": "Endpoints for product reviews"
+    },
+    {
+      "name": "Stores",
+      "description": "Endpoints for pharmacies/stores"
+    },
+    {
+      "name": "Reviews",
+      "description": "Endpoints for customer reviews about platform"
+    },
+    {
+      "name": "Cart",
+      "description": "Endpoints for cart and orders"
+    }
+  ],
+  "paths": {
+    "/user/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login",
+        "description": "Log in a user",
+        "operationId": "login",
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "description": "User's email",
+                    "type": "string",
+                    "example": "email@example.com"
+                  },
+                  "password": {
+                    "description": "User's password",
+                    "type": "string",
+                    "example": "12345"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully logged in an user!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "accessToken": {
+                          "description": "User's access token",
+                          "type": "string",
+                          "example": "qweX9PnLmYxT4rDbfZKjUoNvHcR5mG2aLsBdXcJu"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout",
+        "description": "Log out a user",
+        "operationId": "logout",
+        "security": [],
+        "responses": {
+          "204": {
+            "description": "Logout the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/user/refresh": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh",
+        "description": "Refresh a user",
+        "operationId": "refresh",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Refresh the session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully refreshed a session!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "accessToken": {
+                          "description": "User's access token",
+                          "type": "string",
+                          "example": "qweX9PnLmYxT4rDbfZKjUoNvHcR5mG2aLsBdXcJu"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/user/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Registration",
+        "description": "Registrate a user",
+        "operationId": "registration",
+        "security": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "name": {
+                    "description": "User's name",
+                    "type": "string",
+                    "example": "John Doe",
+                    "minLength": 3,
+                    "maxLength": 20
+                  },
+                  "email": {
+                    "description": "User's email",
+                    "type": "string",
+                    "example": "email@example.com"
+                  },
+                  "password": {
+                    "description": "User's password",
+                    "type": "string",
+                    "example": "12345"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully registered a user!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          }
+        }
+      }
+    },
+    "/user/user-info": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user's information",
+        "description": "Get current user's info",
+        "operationId": "currentUser",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found user!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get Products",
+        "description": "Get list of products with optional filtering",
+        "operationId": "getProducts",
+        "security": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by product name"
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by product category"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return list of products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/product"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get Product Details",
+        "description": "Get details of a product by ID",
+        "operationId": "getProductById",
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Product ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return product details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/product"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/products/{productId}/reviews": {
+      "get": {
+        "tags": [
+          "Product Reviews"
+        ],
+        "summary": "Get Product Reviews",
+        "description": "Get all reviews for a specific product",
+        "operationId": "getProductReviews",
+        "security": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "productId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the product"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return product reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/productReview"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/stores": {
+      "get": {
+        "tags": [
+          "Stores"
+        ],
+        "summary": "Get Stores",
+        "description": "Get all stores",
+        "operationId": "getStores",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Return list of stores",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/store"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/stores/nearest": {
+      "get": {
+        "tags": [
+          "Stores"
+        ],
+        "summary": "Get Nearest Stores",
+        "description": "Get nearest stores (dummy filter for now)",
+        "operationId": "getNearestStores",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Return list of nearest stores",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/store"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/customer-reviews": {
+      "get": {
+        "tags": [
+          "Reviews"
+        ],
+        "summary": "Get Customer Reviews",
+        "description": "Get all customer reviews about the platform",
+        "operationId": "getCustomerReviews",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found reviews!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "data"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/review"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/cart": {
+      "get": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Get Cart Items",
+        "description": "Get the list of products in the user's cart",
+        "operationId": "getCart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return cart items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart_Cart"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/cart/update": {
+      "put": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Update Cart",
+        "description": "Update the quantity of items in the user's cart",
+        "operationId": "updateCart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCartRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart_Cart"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/cart/checkout": {
+      "post": {
+        "tags": [
+          "Cart"
+        ],
+        "summary": "Checkout",
+        "description": "Process the checkout and clear the user's cart",
+        "operationId": "checkoutCart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order successfully placed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "user": {
+        "title": "User",
+        "type": "object",
+        "required": [
+          "_id",
+          "name",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "_id": {
+            "description": "User's id",
+            "type": "string",
+            "example": "65e4decdd286b30065d54af9"
+          },
+          "name": {
+            "description": "User's name",
+            "type": "string",
+            "example": "John Doe",
+            "minLength": 3,
+            "maxLength": 20
+          },
+          "email": {
+            "description": "User's email",
+            "type": "string",
+            "example": "email@example.com"
+          },
+          "password": {
+            "description": "Hashed user's password",
+            "type": "string",
+            "example": "$2b$10$RrwIu5gPU5U04YgA6kRzqePu5CEZ4LVvXPB4dfHfrklT2bHu3U9JG",
+            "writeOnly": true
+          }
+        }
+      },
+      "product": {
+        "title": "Product",
+        "type": "object",
+        "required": [
+          "id",
+          "photo",
+          "name",
+          "suppliers",
+          "stock",
+          "price",
+          "category",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "description": "Product unique id",
+            "type": "string",
+            "example": "0"
+          },
+          "photo": {
+            "description": "Product photo",
+            "type": "string",
+            "example": "https://i.ibb.co/bLKP624/5-15-1000x1000-min.jpg"
+          },
+          "name": {
+            "description": "Product name",
+            "type": "string",
+            "example": "Aspirin",
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "suppliers": {
+            "description": "Supplier name",
+            "type": "string",
+            "example": "Square"
+          },
+          "stock": {
+            "description": "Available stock",
+            "type": "string",
+            "example": "12"
+          },
+          "price": {
+            "description": "Price of the product",
+            "type": "string",
+            "example": "89.66"
+          },
+          "category": {
+            "description": "Product category",
+            "type": "string",
+            "example": "Medicine"
+          },
+          "description": {
+            "description": "Detailed description of product features",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Although it's typically considered safe, excessive consumption can lead to side effects...",
+              "Medicinal Uses: Antioxidant Properties...",
+              "Anti-Diabetic Effects: ..."
+            ]
+          }
+        }
+      },
+      "productReview": {
+        "title": "ProductReview",
+        "type": "object",
+        "required": [
+          "_id",
+          "productId",
+          "userName",
+          "comment",
+          "rating",
+          "daysAgo"
+        ],
+        "properties": {
+          "_id": {
+            "description": "MongoDB ObjectId",
+            "type": "string",
+            "example": "68adc76106ad3fc933db5721"
+          },
+          "productId": {
+            "description": "ID of the product this review belongs to",
+            "type": "string",
+            "example": "0"
+          },
+          "userName": {
+            "description": "Name of the user who left the review",
+            "type": "string",
+            "example": "Olga"
+          },
+          "comment": {
+            "description": "Review text about the product",
+            "type": "string",
+            "example": "Very effective for mild pain relief."
+          },
+          "rating": {
+            "description": "Star rating (1-5)",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 5
+          },
+          "daysAgo": {
+            "description": "How many days ago the review was left",
+            "type": "integer",
+            "example": 2
+          }
+        }
+      },
+      "store": {
+        "title": "Store",
+        "type": "object",
+        "required": [
+          "_id",
+          "name",
+          "address",
+          "city",
+          "phone"
+        ],
+        "properties": {
+          "_id": {
+            "description": "MongoDB ObjectId",
+            "type": "string",
+            "example": "68ac790bab129d55f00b6382"
+          },
+          "name": {
+            "description": "Pharmacy / Store name",
+            "type": "string",
+            "example": "Wellness Pharma"
+          },
+          "address": {
+            "description": "Street address of the store",
+            "type": "string",
+            "example": "Reitarska St, 17"
+          },
+          "city": {
+            "description": "City where the store is located",
+            "type": "string",
+            "example": "Kyiv"
+          },
+          "phone": {
+            "description": "Contact phone number",
+            "type": "string",
+            "example": "045-256-9564"
+          },
+          "rating": {
+            "description": "Average rating of the store",
+            "type": "integer",
+            "example": 2
+          },
+          "isOpen": {
+            "description": "Indicates whether the store is currently open",
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "review": {
+        "title": "CustomerReview",
+        "type": "object",
+        "required": [
+          "_id",
+          "name",
+          "testimonial"
+        ],
+        "properties": {
+          "_id": {
+            "description": "MongoDB ObjectId",
+            "type": "string",
+            "example": "68ac799aab129d55f00b63f9"
+          },
+          "name": {
+            "description": "Name of the customer who left the review",
+            "type": "string",
+            "example": "Maria Tkachuk"
+          },
+          "testimonial": {
+            "description": "Review text provided by the customer",
+            "type": "string",
+            "example": "I recently used this medical platform to book an appointment with a specialist, and I was impressed by how easy and user-friendly the process was. Highly recommended!"
+          }
+        }
+      },
+      "CartItem": {
+        "title": "CartItem",
+        "type": "object",
+        "required": [
+          "productId",
+          "quantity"
+        ],
+        "properties": {
+          "productId": {
+            "description": "Product ID",
+            "type": "string",
+            "example": "0"
+          },
+          "quantity": {
+            "description": "Quantity of this product",
+            "type": "integer",
+            "example": 2
+          }
+        }
+      },
+      "Cart_Cart": {
+        "title": "Cart",
+        "type": "object",
+        "required": [
+          "userId",
+          "items"
+        ],
+        "properties": {
+          "userId": {
+            "description": "ID of the user who owns the cart",
+            "type": "string",
+            "example": "65e4decdd286b30065d54af9"
+          },
+          "items": {
+            "description": "List of items in the cart",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CartItem"
+            }
+          }
+        }
+      },
+      "UpdateCartRequest": {
+        "title": "UpdateCartRequest",
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "description": "Updated list of items",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CartItem"
+            }
+          }
+        },
+        "example": {
+          "items": [
+            {
+              "productId": "0",
+              "quantity": 3
+            },
+            {
+              "productId": "1",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      "CheckoutResponse": {
+        "title": "CheckoutResponse",
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Order successfully placed"
+          },
+          "cart": {
+            "$ref": "#/components/schemas/Cart_Cart"
+          }
+        }
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "\\\"email\\\" must be a valid email"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "\\\"email\\\" must be a valid email"
+                      },
+                      "path": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "example": "email"
+                        }
+                      },
+                      "type": {
+                        "type": "string",
+                        "example": "string.email"
+                      },
+                      "context": {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "UnauthorizedError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Access token expired"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "NotFound error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "NotFoundError"
+                },
+                "data": {
+                  "type": "string",
+                  "example": "Not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "409": {
+        "description": "Conflict error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 409
+                },
+                "message": {
+                  "type": "string",
+                  "example": "ConflictError"
+                },
+                "data": {
+                  "type": "string",
+                  "example": "Email in use"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

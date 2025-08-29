@@ -1,0 +1,51 @@
+title: Product
+type: object
+required:
+  - id
+  - photo
+  - name
+  - suppliers
+  - stock
+  - price
+  - category
+  - description
+properties:
+  id:
+    description: 'Product unique id'
+    type: string
+    example: '0'
+  photo:
+    description: 'Product photo'
+    type: string
+    example: 'https://i.ibb.co/bLKP624/5-15-1000x1000-min.jpg'
+  name:
+    description: 'Product name'
+    type: string
+    example: 'Aspirin'
+    minLength: 2
+    maxLength: 50
+  suppliers:
+    description: 'Supplier name'
+    type: string
+    example: 'Square'
+  stock:
+    description: 'Available stock'
+    type: string
+    example: '12'
+  price:
+    description: 'Price of the product'
+    type: string
+    example: '89.66'
+  category:
+    description: 'Product category'
+    type: string
+    example: 'Medicine'
+  description:
+    description: 'Detailed description of product features'
+    type: array
+    items:
+      type: string
+    example:
+      - "Although it's typically considered safe, excessive consumption can lead to side effects..."
+      - 'Medicinal Uses: Antioxidant Properties...'
+      - 'Anti-Diabetic Effects: ...'

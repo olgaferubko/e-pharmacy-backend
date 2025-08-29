@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: E-Pharmacy API
+  description: API documentation for E-Pharmacy project
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: https://e-pharmacy-backend.onrender.com
+    description: Production server
+
+tags:
+  - name: Auth
+    description: Endpoints for authentication and registration
+  - name: Users
+    description: Endpoints for user information
+  - name: Products
+    description: Endpoints for products
+  - name: Product Reviews
+    description: Endpoints for product reviews
+  - name: Stores
+    description: Endpoints for pharmacies/stores
+  - name: Reviews
+    description: Endpoints for customer reviews about platform
+  - name: Cart
+    description: Endpoints for cart and orders
+
+paths:
+  /user/login:
+    post:
+      $ref: ../swagger/paths/auth/login.yaml
+  /user/logout:
+    get:
+      $ref: ../swagger/paths/auth/logout.yaml
+  /user/refresh:
+    get:
+      $ref: ../swagger/paths/auth/refresh.yaml
+  /user/register:
+    post:
+      $ref: ../swagger/paths/auth/registration.yaml
+
+  /user/user-info:
+    get:
+      $ref: ../swagger/paths/users/currentUser.yaml
+
+  /products:
+    get:
+      $ref: ../swagger/paths/products/get.yaml
+  /products/{id}:
+    get:
+      $ref: ../swagger/paths/products/{id}/get.yaml
+  /products/{productId}/reviews:
+    get:
+      $ref: ../swagger/paths/products/getProductReviews.yaml
+
+  /stores:
+    get:
+      $ref: ../swagger/paths/stores/getStores.yaml
+  /stores/nearest:
+    get:
+      $ref: ../swagger/paths/stores/getNearestStores.yaml
+
+  /customer-reviews:
+    get:
+      $ref: ../swagger/paths/reviews/get.yaml
+
+  /cart:
+    get:
+      $ref: ../swagger/paths/cart/get.yaml
+  /cart/update:
+    put:
+      $ref: ../swagger/paths/cart/put.yaml
+  /cart/checkout:
+    post:
+      $ref: ../swagger/paths/cart/post.yaml
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    User:
+      $ref: ../swagger/components/schemas/user.yaml
+    Product:
+      $ref: ../swagger/components/schemas/product.yaml
+    ProductReview:
+      $ref: ../swagger/components/schemas/productReview.yaml
+    Store:
+      $ref: ../swagger/components/schemas/store.yaml
+    Review:
+      $ref: ../swagger/components/schemas/review.yaml
+    Cart:
+      $ref: ../swagger/components/schemas/cart.yaml

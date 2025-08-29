@@ -1,0 +1,17 @@
+tags:
+  - Stores
+summary: Get Nearest Stores
+description: 'Get nearest stores (dummy filter for now)'
+operationId: getNearestStores
+security: []
+responses:
+  '200':
+    description: 'Return list of nearest stores'
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: ../../components/schemas/store.yaml
+  '401':
+    $ref: '../../components/responses/401.yaml'

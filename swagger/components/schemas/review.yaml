@@ -1,0 +1,19 @@
+title: CustomerReview
+type: object
+required:
+  - _id
+  - name
+  - testimonial
+properties:
+  _id:
+    description: 'MongoDB ObjectId'
+    type: string
+    example: '68ac799aab129d55f00b63f9'
+  name:
+    description: 'Name of the customer who left the review'
+    type: string
+    example: 'Maria Tkachuk'
+  testimonial:
+    description: 'Review text provided by the customer'
+    type: string
+    example: 'I recently used this medical platform to book an appointment with a specialist, and I was impressed by how easy and user-friendly the process was. Highly recommended!'

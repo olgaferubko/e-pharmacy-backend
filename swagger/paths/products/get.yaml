@@ -1,0 +1,30 @@
+tags:
+  - Products
+summary: Get Products
+description: 'Get list of products with optional filtering'
+operationId: getProducts
+security: []
+parameters:
+  - in: query
+    name: name
+    schema:
+      type: string
+    description: 'Filter by product name'
+  - in: query
+    name: category
+    schema:
+      type: string
+    description: 'Filter by product category'
+responses:
+  '200':
+    description: 'Return list of products'
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '../../components/schemas/product.yaml'
+  '400':
+    $ref: '../../components/responses/400.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
