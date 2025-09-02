@@ -1,16 +1,26 @@
 tags:
   - Auth
-summary: Logout
-description: 'Log out a user'
-operationId: logout
-security: []
+summary: User sign out
+description: 'Sign out a user'
+operationId: signOut
+security:
+  - bearerAuth: []
 responses:
-  '204':
-    description: 'Logout the user'
+  '200':
+    description: 'Successful operation'
     content:
       application/json:
         schema:
           type: object
-          properties: {}
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              example: 'Sign out success'
   '401':
     $ref: '../../components/responses/401.yaml'
+  '404':
+    $ref: '../../components/responses/404.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

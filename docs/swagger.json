@@ -119,35 +119,62 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
     },
-    "/user/logout": {
-      "get": {
+    "/users/logout": {
+      "post": {
         "tags": [
           "Auth"
         ],
-        "summary": "Logout",
-        "description": "Log out a user",
-        "operationId": "logout",
-        "security": [],
+        "summary": "User sign out",
+        "description": "Sign out a user",
+        "operationId": "signOut",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
-          "204": {
-            "description": "Logout the user",
+          "200": {
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Sign out success"
+                    }
+                  }
                 }
               }
             }
           },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -278,8 +305,20 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
           "409": {
             "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -688,6 +727,24 @@
       }
     },
     "schemas": {
+      "User": {
+        "$ref": "#/components/schemas/user"
+      },
+      "Product": {
+        "$ref": "#/components/schemas/product"
+      },
+      "ProductReview": {
+        "$ref": "#/components/schemas/productReview"
+      },
+      "Store": {
+        "$ref": "#/components/schemas/store"
+      },
+      "Review": {
+        "$ref": "#/components/schemas/review"
+      },
+      "Cart": {
+        "$ref": "#/components/schemas/cart"
+      },
       "user": {
         "title": "User",
         "type": "object",
@@ -990,6 +1047,91 @@
             "$ref": "#/components/schemas/Cart_Cart"
           }
         }
+      },
+      "cart": {
+        "Cart": {
+          "title": "Cart",
+          "type": "object",
+          "required": [
+            "userId",
+            "items"
+          ],
+          "properties": {
+            "userId": {
+              "description": "ID of the user who owns the cart",
+              "type": "string",
+              "example": "65e4decdd286b30065d54af9"
+            },
+            "items": {
+              "description": "List of items in the cart",
+              "type": "array",
+              "items": {
+                "$ref": "#/CartItem"
+              }
+            }
+          }
+        },
+        "CartItem": {
+          "title": "CartItem",
+          "type": "object",
+          "required": [
+            "productId",
+            "quantity"
+          ],
+          "properties": {
+            "productId": {
+              "description": "Product ID",
+              "type": "string",
+              "example": "0"
+            },
+            "quantity": {
+              "description": "Quantity of this product",
+              "type": "integer",
+              "example": 2
+            }
+          }
+        },
+        "UpdateCartRequest": {
+          "title": "UpdateCartRequest",
+          "type": "object",
+          "required": [
+            "items"
+          ],
+          "properties": {
+            "items": {
+              "description": "Updated list of items",
+              "type": "array",
+              "items": {
+                "$ref": "#/CartItem"
+              }
+            }
+          },
+          "example": {
+            "items": [
+              {
+                "productId": "0",
+                "quantity": 3
+              },
+              {
+                "productId": "1",
+                "quantity": 1
+              }
+            ]
+          }
+        },
+        "CheckoutResponse": {
+          "title": "CheckoutResponse",
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Order successfully placed"
+            },
+            "cart": {
+              "$ref": "#/Cart"
+            }
+          }
+        }
       }
     },
     "responses": {
@@ -1131,6 +1273,35 @@
                 "data": {
                   "type": "string",
                   "example": "Email in use"
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Conflict error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "UnknownError"
+                },
+                "data": {
+                  "type": "string",
+                  "example": "Failed to send the email, please try again later."
                 }
               }
             }

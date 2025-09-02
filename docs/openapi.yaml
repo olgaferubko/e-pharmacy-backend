@@ -31,9 +31,11 @@ paths:
   /user/login:
     post:
       $ref: ../swagger/paths/auth/login.yaml
-  /user/logout:
-    get:
+
+  /users/logout:
+    post:
       $ref: ../swagger/paths/auth/logout.yaml
+
   /user/refresh:
     get:
       $ref: ../swagger/paths/auth/refresh.yaml
