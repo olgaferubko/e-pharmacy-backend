@@ -635,7 +635,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Cart_Cart"
+                  "$ref": "#/components/schemas/cart"
                 }
               }
             }
@@ -663,7 +663,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateCartRequest"
+                "$ref": "#/components/schemas/updateCartRequest"
               }
             }
           }
@@ -674,7 +674,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Cart_Cart"
+                  "$ref": "#/components/schemas/cart"
                 }
               }
             }
@@ -704,7 +704,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CheckoutResponse"
+                  "$ref": "#/components/schemas/checkoutResponse"
                 }
               }
             }
@@ -965,8 +965,7 @@
           }
         }
       },
-      "CartItem": {
-        "title": "CartItem",
+      "cartItem": {
         "type": "object",
         "required": [
           "productId",
@@ -974,19 +973,16 @@
         ],
         "properties": {
           "productId": {
-            "description": "Product ID",
             "type": "string",
             "example": "0"
           },
           "quantity": {
-            "description": "Quantity of this product",
             "type": "integer",
             "example": 2
           }
         }
       },
-      "Cart_Cart": {
-        "title": "Cart",
+      "cart": {
         "type": "object",
         "required": [
           "userId",
@@ -994,49 +990,32 @@
         ],
         "properties": {
           "userId": {
-            "description": "ID of the user who owns the cart",
             "type": "string",
             "example": "65e4decdd286b30065d54af9"
           },
           "items": {
-            "description": "List of items in the cart",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CartItem"
+              "$ref": "#/components/schemas/cartItem"
             }
           }
         }
       },
-      "UpdateCartRequest": {
-        "title": "UpdateCartRequest",
+      "updateCartRequest": {
         "type": "object",
         "required": [
           "items"
         ],
         "properties": {
           "items": {
-            "description": "Updated list of items",
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CartItem"
+              "$ref": "#/components/schemas/cartItem"
             }
           }
-        },
-        "example": {
-          "items": [
-            {
-              "productId": "0",
-              "quantity": 3
-            },
-            {
-              "productId": "1",
-              "quantity": 1
-            }
-          ]
         }
       },
-      "CheckoutResponse": {
-        "title": "CheckoutResponse",
+      "checkoutResponse": {
         "type": "object",
         "properties": {
           "message": {
@@ -1044,92 +1023,7 @@
             "example": "Order successfully placed"
           },
           "cart": {
-            "$ref": "#/components/schemas/Cart_Cart"
-          }
-        }
-      },
-      "cart": {
-        "Cart": {
-          "title": "Cart",
-          "type": "object",
-          "required": [
-            "userId",
-            "items"
-          ],
-          "properties": {
-            "userId": {
-              "description": "ID of the user who owns the cart",
-              "type": "string",
-              "example": "65e4decdd286b30065d54af9"
-            },
-            "items": {
-              "description": "List of items in the cart",
-              "type": "array",
-              "items": {
-                "$ref": "#/CartItem"
-              }
-            }
-          }
-        },
-        "CartItem": {
-          "title": "CartItem",
-          "type": "object",
-          "required": [
-            "productId",
-            "quantity"
-          ],
-          "properties": {
-            "productId": {
-              "description": "Product ID",
-              "type": "string",
-              "example": "0"
-            },
-            "quantity": {
-              "description": "Quantity of this product",
-              "type": "integer",
-              "example": 2
-            }
-          }
-        },
-        "UpdateCartRequest": {
-          "title": "UpdateCartRequest",
-          "type": "object",
-          "required": [
-            "items"
-          ],
-          "properties": {
-            "items": {
-              "description": "Updated list of items",
-              "type": "array",
-              "items": {
-                "$ref": "#/CartItem"
-              }
-            }
-          },
-          "example": {
-            "items": [
-              {
-                "productId": "0",
-                "quantity": 3
-              },
-              {
-                "productId": "1",
-                "quantity": 1
-              }
-            ]
-          }
-        },
-        "CheckoutResponse": {
-          "title": "CheckoutResponse",
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "example": "Order successfully placed"
-            },
-            "cart": {
-              "$ref": "#/Cart"
-            }
+            "$ref": "#/components/schemas/cart"
           }
         }
       }

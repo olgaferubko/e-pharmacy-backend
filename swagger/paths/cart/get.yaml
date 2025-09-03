@@ -11,6 +11,6 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '../../components/schemas/Cart.yaml#/Cart'
+          $ref: '../../components/schemas/cart.yaml'
   '401':
     $ref: '../../components/responses/401.yaml'

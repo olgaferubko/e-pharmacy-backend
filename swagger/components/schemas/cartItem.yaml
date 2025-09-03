@@ -1,0 +1,11 @@
+type: object
+required:
+  - productId
+  - quantity
+properties:
+  productId:
+    type: string
+    example: '0'
+  quantity:
+    type: integer
+    example: 2

@@ -9,13 +9,13 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../components/schemas/Cart.yaml#/UpdateCartRequest'
+        $ref: '../../components/schemas/updateCartRequest.yaml'
 responses:
   '200':
     description: 'Updated cart'
     content:
       application/json:
         schema:
-          $ref: '../../components/schemas/Cart.yaml#/Cart'
+          $ref: '../../components/schemas/cart.yaml'
   '401':
     $ref: '../../components/responses/401.yaml'

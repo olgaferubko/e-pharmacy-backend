@@ -11,7 +11,7 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '../../components/schemas/Cart.yaml#/CheckoutResponse'
+          $ref: '../../components/schemas/checkoutResponse.yaml'
   '400':
     $ref: '../../components/responses/400.yaml'
   '401':
