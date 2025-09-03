@@ -39,6 +39,7 @@ paths:
   /user/refresh:
     get:
       $ref: ../swagger/paths/auth/refresh.yaml
+
   /user/register:
     post:
       $ref: ../swagger/paths/auth/registration.yaml
@@ -50,9 +51,11 @@ paths:
   /products:
     get:
       $ref: ../swagger/paths/products/get.yaml
+
   /products/{id}:
     get:
       $ref: ../swagger/paths/products/{id}/get.yaml
+
   /products/{productId}/reviews:
     get:
       $ref: ../swagger/paths/products/getProductReviews.yaml
@@ -60,6 +63,7 @@ paths:
   /stores:
     get:
       $ref: ../swagger/paths/stores/getStores.yaml
+
   /stores/nearest:
     get:
       $ref: ../swagger/paths/stores/getNearestStores.yaml
@@ -71,9 +75,11 @@ paths:
   /cart:
     get:
       $ref: ../swagger/paths/cart/get.yaml
+
   /cart/update:
     put:
       $ref: ../swagger/paths/cart/put.yaml
+
   /cart/checkout:
     post:
       $ref: ../swagger/paths/cart/post.yaml
@@ -83,6 +89,7 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
+      bearerFormat: JWT
 
   schemas:
     User:
@@ -95,5 +102,11 @@ components:
       $ref: ../swagger/components/schemas/store.yaml
     Review:
       $ref: ../swagger/components/schemas/review.yaml
+    CartItem:
+      $ref: ../swagger/components/schemas/cartItem.yaml
     Cart:
       $ref: ../swagger/components/schemas/cart.yaml
+    UpdateCartRequest:
+      $ref: ../swagger/components/schemas/updateCartRequest.yaml
+    CheckoutResponse:
+      $ref: ../swagger/components/schemas/checkoutResponse.yaml

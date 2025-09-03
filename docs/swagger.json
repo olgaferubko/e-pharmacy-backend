@@ -723,7 +723,8 @@
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     },
     "schemas": {
@@ -742,8 +743,17 @@
       "Review": {
         "$ref": "#/components/schemas/review"
       },
+      "CartItem": {
+        "$ref": "#/components/schemas/cartItem"
+      },
       "Cart": {
         "$ref": "#/components/schemas/cart"
+      },
+      "UpdateCartRequest": {
+        "$ref": "#/components/schemas/updateCartRequest"
+      },
+      "CheckoutResponse": {
+        "$ref": "#/components/schemas/checkoutResponse"
       },
       "user": {
         "title": "User",
