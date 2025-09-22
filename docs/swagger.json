@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://e-pharmacy-backend.onrender.com",
+      "url": "https://e-pharmacy-backend.onrender.com/api",
       "description": "Production server"
     }
   ],
@@ -416,8 +416,8 @@
           "400": {
             "$ref": "#/components/responses/400"
           },
-          "401": {
-            "$ref": "#/components/responses/401"
+          "404": {
+            "$ref": "#/components/responses/404"
           }
         }
       }
@@ -522,8 +522,11 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/401"
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -551,8 +554,11 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/401"
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -610,8 +616,8 @@
               }
             }
           },
-          "401": {
-            "$ref": "#/components/responses/401"
+          "404": {
+            "$ref": "#/components/responses/404"
           }
         }
       }
