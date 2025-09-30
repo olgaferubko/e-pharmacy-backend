@@ -13,6 +13,7 @@ requestBody:
           - name
           - email
           - password
+          - phone
         properties:
           name:
             description: "User's name"
@@ -28,6 +29,10 @@ requestBody:
             description: "User's password"
             type: string
             example: '12345'
+          phone:
+            description: 'Phone number'
+            type: string
+            example: '+3800000000000'
 responses:
   '201':
     description: 'Create the user'
