@@ -25,7 +25,7 @@ router.post(
   ctrlWrapper(loginUserController),
 );
 
-router.post('/refresh', ctrlWrapper(refreshUserController));
+router.get('/refresh', ctrlWrapper(refreshUserController));
 
 router.post('/logout', ctrlWrapper(logoutUserController));
 
