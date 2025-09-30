@@ -1,6 +1,6 @@
 import { ProductsCollection } from '../db/models/product.js';
 import { ProductReviewsCollection } from '../db/models/productReviews.js';
-import { CATEGORIES } from '../constants/categories.js';
+import { CATEGORIES } from '../../constants/categories.js';
 import createHttpError from 'http-errors';
 
 export const findProducts = async (queryParams = {}) => {
