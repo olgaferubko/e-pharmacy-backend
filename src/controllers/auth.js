@@ -15,28 +15,14 @@ export const registerUserController = async (req, res) => {
   });
 };
 
-const cookieOptions =
-  process.env.NODE_ENV === 'production'
-    ? { httpOnly: true, sameSite: 'None', secure: true }
-    : { httpOnly: true, sameSite: 'Lax', secure: false };
-
 const setupSession = (res, session) => {
-  const isProd = process.env.NODE_ENV === 'production';
-
-  const baseCookie = {
-    httpOnly: true,
-    sameSite: isProd ? 'none' : 'lax', 
-    secure: isProd,
-    path: '/',
-  };
-
   res.cookie('refreshToken', session.refreshToken, {
-    ...baseCookie,
+    httpOnly: true,
     expires: new Date(session.refreshTokenValidUntil),
   });
 
   res.cookie('sessionId', session._id, {
-    ...baseCookie,
+    httpOnly: true,
     expires: new Date(Date.now() + ONE_DAY),
   });
 };
@@ -44,9 +30,10 @@ const setupSession = (res, session) => {
 export const loginUserController = async (req, res) => {
   const session = await loginUser(req.body);
   setupSession(res, session);
+
   res.status(200).json({
     status: 200,
-    message: 'Successfully logged in an user!',
+    message: 'Successfully logged in a user!',
     data: { accessToken: session.accessToken },
   });
 };
@@ -58,6 +45,7 @@ export const refreshUserController = async (req, res) => {
   });
 
   setupSession(res, session);
+
   res.status(200).json({
     status: 200,
     message: 'Successfully refreshed a session!',
@@ -69,8 +57,8 @@ export const logoutUserController = async (req, res) => {
   if (req.cookies.sessionId) {
     await logoutUser(req.cookies.sessionId);
   }
-  res.clearCookie('sessionId', cookieOptions);
-  res.clearCookie('refreshToken', cookieOptions);
+  res.clearCookie('sessionId');
+  res.clearCookie('refreshToken');
 
   res.status(200).json({
     message: 'Sign out success',

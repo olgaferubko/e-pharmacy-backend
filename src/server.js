@@ -22,8 +22,10 @@ export async function setupServer() {
   const PORT = Number(getEnvVar('PORT', '3000'));
   const app = express();
 
+
   const swagger = await swaggerConfig();
   app.use('/api-docs', ...swagger);
+
 
   const allowedOrigins = [
     'http://localhost:5173',
@@ -31,11 +33,15 @@ export async function setupServer() {
     'https://e-pharmacy-frontend.vercel.app',
   ];
 
+
   app.use(
     cors({
       origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) callback(null, true);
-        else callback(new Error('Not allowed by CORS'));
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
       },
       credentials: true,
     }),
@@ -43,6 +49,7 @@ export async function setupServer() {
 
   app.use(express.json());
   app.use(cookieParser());
+
 
   app.use(
     pino({
@@ -58,6 +65,7 @@ export async function setupServer() {
     next();
   });
 
+
   app.use('/api/user', authRoutes);
   app.use('/api/user', userRoutes);
   app.use('/api/customer-reviews', reviewRoutes);
@@ -65,8 +73,10 @@ export async function setupServer() {
   app.use('/api/products', productRoutes);
   app.use('/api/cart', cartRoutes);
 
+
   app.use(notFoundHandler);
   app.use(errorHandler);
+
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
