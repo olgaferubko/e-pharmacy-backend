@@ -16,7 +16,6 @@ import storeRoutes from './routes/stores.js';
 import productRoutes from './routes/products.js';
 import cartRoutes from './routes/cart.js';
 
-
 dotenv.config();
 
 export async function setupServer() {
@@ -27,19 +26,16 @@ export async function setupServer() {
   app.use('/api-docs', ...swagger);
 
   const allowedOrigins = [
-    'http://localhost:3000',
     'http://localhost:5173',
+    'http://localhost:3000',
     'https://e-pharmacy-frontend.vercel.app',
   ];
 
   app.use(
     cors({
       origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
+        if (!origin || allowedOrigins.includes(origin)) callback(null, true);
+        else callback(new Error('Not allowed by CORS'));
       },
       credentials: true,
     }),
@@ -50,13 +46,12 @@ export async function setupServer() {
 
   app.use(
     pino({
-      transport: {
-        target: 'pino-pretty',
-      },
+      transport: { target: 'pino-pretty' },
     }),
   );
 
-  app.use('/api', (req, res, next) => {
+
+  app.use('/api/user/refresh', (req, res, next) => {
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
@@ -70,15 +65,11 @@ export async function setupServer() {
   app.use('/api/products', productRoutes);
   app.use('/api/cart', cartRoutes);
 
-
   app.use(notFoundHandler);
   app.use(errorHandler);
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-    console.log(
-      `Swagger docs available at http://localhost:${PORT}/api-docs`,
-    );
+    console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
   });
 };
-

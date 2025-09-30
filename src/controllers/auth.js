@@ -8,7 +8,6 @@ import {
 
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
-
   res.status(201).json({
     status: 201,
     message: 'Successfully registered a user!',
@@ -16,21 +15,25 @@ export const registerUserController = async (req, res) => {
   });
 };
 
+const cookieOptions =
+  process.env.NODE_ENV === 'production'
+    ? { httpOnly: true, sameSite: 'None', secure: true }
+    : { httpOnly: true, sameSite: 'Lax', secure: false };
+
 const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
+    ...cookieOptions,
     expires: new Date(session.refreshTokenValidUntil),
   });
 
   res.cookie('sessionId', session._id, {
-    httpOnly: true,
+    ...cookieOptions,
     expires: new Date(Date.now() + ONE_DAY),
   });
 };
 
 export const loginUserController = async (req, res) => {
   const session = await loginUser(req.body);
-
   setupSession(res, session);
   res.status(200).json({
     status: 200,
@@ -57,10 +60,10 @@ export const logoutUserController = async (req, res) => {
   if (req.cookies.sessionId) {
     await logoutUser(req.cookies.sessionId);
   }
-  res.clearCookie('sessionId');
-  res.clearCookie('refreshToken');
+  res.clearCookie('sessionId', cookieOptions);
+  res.clearCookie('refreshToken', cookieOptions);
 
   res.status(200).json({
-    message: 'Sign out success'
+    message: 'Sign out success',
   });
 };
