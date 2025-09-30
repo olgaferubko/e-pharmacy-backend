@@ -1,50 +1,41 @@
 title: Product
 type: object
-required:
-  - id
-  - photo
-  - name
-  - suppliers
-  - stock
-  - price
-  - category
-  - description
+required: [id, name, price, category]
 properties:
   id:
-    description: 'Product unique id'
+    description: Product unique id
     type: string
     example: '0'
   photo:
-    description: 'Product photo'
+    description: Product photo URL
     type: string
     example: 'https://i.ibb.co/bLKP624/5-15-1000x1000-min.jpg'
   name:
-    description: 'Product name'
+    description: Product name
     type: string
-    example: 'Aspirin'
     minLength: 2
     maxLength: 50
+    example: 'Aspirin'
   suppliers:
-    description: 'Supplier name'
+    description: Supplier name
     type: string
     example: 'Square'
   stock:
-    description: 'Available stock'
-    type: string
-    example: '12'
+    description: Available stock
+    type: number
+    example: 12
   price:
-    description: 'Price of the product'
-    type: string
-    example: '89.66'
+    description: Price of the product
+    type: number
+    example: 89.66
   category:
-    description: 'Product category'
+    description: Product category
     type: string
     example: 'Medicine'
   description:
-    description: 'Detailed description of product features'
+    description: Detailed description of product features
     type: array
-    items:
-      type: string
+    items: { type: string }
     example:
       - "Although it's typically considered safe, excessive consumption can lead to side effects..."
       - 'Medicinal Uses: Antioxidant Properties...'

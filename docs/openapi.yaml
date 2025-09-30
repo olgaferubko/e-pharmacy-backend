@@ -52,6 +52,10 @@ paths:
     get:
       $ref: ../swagger/paths/products/get.yaml
 
+  /products/categories:
+    get:
+      $ref: ../swagger/paths/products/categories.yaml
+
   /products/{id}:
     get:
       $ref: ../swagger/paths/products/{id}/get.yaml

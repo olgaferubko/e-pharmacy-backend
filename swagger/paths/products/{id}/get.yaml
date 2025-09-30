@@ -1,22 +1,33 @@
 tags:
   - Products
 summary: Get Product Details
-description: 'Get details of a product by ID'
+description: Get details of a product by ID
 operationId: getProductById
 security: []
 parameters:
   - in: path
     name: id
     required: true
-    schema:
-      type: string
-    description: 'Product ID'
+    schema: { type: string }
+    description: Product ID
 responses:
   '200':
-    description: 'Return product details'
+    description: Return product details
     content:
       application/json:
         schema:
-          $ref: '../../../components/schemas/product.yaml'
+          type: object
+          required: [status, message, data]
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully fetched product details!
+            data:
+              $ref: '../../../components/schemas/product.yaml'
   '404':
     $ref: '../../../components/responses/404.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'

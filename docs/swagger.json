@@ -378,7 +378,7 @@
           "Products"
         ],
         "summary": "Get Products",
-        "description": "Get list of products with optional filtering",
+        "description": "Get list of products with optional filtering and pagination",
         "operationId": "getProducts",
         "security": [],
         "parameters": [
@@ -397,17 +397,84 @@
               "type": "string"
             },
             "description": "Filter by product category"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "description": "Page number"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 12
+            },
+            "description": "Items per page (max 50)"
           }
         ],
         "responses": {
           "200": {
-            "description": "Return list of products",
+            "description": "Return list of products with pagination meta",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/product"
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data",
+                    "meta"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully fetched products!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/product"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "required": [
+                        "page",
+                        "limit",
+                        "total",
+                        "totalPages"
+                      ],
+                      "properties": {
+                        "page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "limit": {
+                          "type": "integer",
+                          "example": 12
+                        },
+                        "total": {
+                          "type": "integer",
+                          "example": 137
+                        },
+                        "totalPages": {
+                          "type": "integer",
+                          "example": 12
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -418,6 +485,68 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/products/categories": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get Product Categories",
+        "description": "Get a list of available product categories",
+        "operationId": "getProductCategories",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Return list of categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully fetched categories!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": [
+                        "Medicine",
+                        "Heart",
+                        "Head",
+                        "Hand",
+                        "Leg",
+                        "Dental Care",
+                        "Skin Care"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -448,13 +577,34 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/product"
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully fetched product details!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/product"
+                    }
+                  }
                 }
               }
             }
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -801,13 +951,9 @@
         "type": "object",
         "required": [
           "id",
-          "photo",
           "name",
-          "suppliers",
-          "stock",
           "price",
-          "category",
-          "description"
+          "category"
         ],
         "properties": {
           "id": {
@@ -816,16 +962,16 @@
             "example": "0"
           },
           "photo": {
-            "description": "Product photo",
+            "description": "Product photo URL",
             "type": "string",
             "example": "https://i.ibb.co/bLKP624/5-15-1000x1000-min.jpg"
           },
           "name": {
             "description": "Product name",
             "type": "string",
-            "example": "Aspirin",
             "minLength": 2,
-            "maxLength": 50
+            "maxLength": 50,
+            "example": "Aspirin"
           },
           "suppliers": {
             "description": "Supplier name",
@@ -834,13 +980,13 @@
           },
           "stock": {
             "description": "Available stock",
-            "type": "string",
-            "example": "12"
+            "type": "number",
+            "example": 12
           },
           "price": {
             "description": "Price of the product",
-            "type": "string",
-            "example": "89.66"
+            "type": "number",
+            "example": 89.66
           },
           "category": {
             "description": "Product category",
