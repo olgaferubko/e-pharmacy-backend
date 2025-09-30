@@ -21,13 +21,22 @@ const cookieOptions =
     : { httpOnly: true, sameSite: 'Lax', secure: false };
 
 const setupSession = (res, session) => {
+  const isProd = process.env.NODE_ENV === 'production';
+
+  const baseCookie = {
+    httpOnly: true,
+    sameSite: isProd ? 'none' : 'lax', 
+    secure: isProd,
+    path: '/',
+  };
+
   res.cookie('refreshToken', session.refreshToken, {
-    ...cookieOptions,
+    ...baseCookie,
     expires: new Date(session.refreshTokenValidUntil),
   });
 
   res.cookie('sessionId', session._id, {
-    ...cookieOptions,
+    ...baseCookie,
     expires: new Date(Date.now() + ONE_DAY),
   });
 };
