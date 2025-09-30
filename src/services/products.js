@@ -1,5 +1,5 @@
 import { ProductsCollection } from '../db/models/product.js';
-import { ProductReviewsCollection } from '../models/productReviews.js';
+import { ProductReviewsCollection } from '../db/models/productReviews.js';
 import { CATEGORIES } from '../constants/categories.js';
 import createHttpError from 'http-errors';
 
