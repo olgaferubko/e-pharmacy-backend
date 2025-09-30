@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { CATEGORIES } from '../constants/categories.js';
+import { CATEGORIES } from '../../constants/categories.js';
 
 const productsSchema = new Schema(
   {
