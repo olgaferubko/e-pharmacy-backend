@@ -1,8 +1,9 @@
 import {
   findProducts,
   findById,
-  getCategories as getCategoriesService,
 } from '../services/products.js';
+
+import { CATEGORIES } from '../constants/categories.js';
 
 const DEFAULT_LIMIT = 12;
 const MAX_LIMIT = 50;
@@ -64,11 +65,10 @@ export const getProductDetailsController = async (req, res, next) => {
 
 export const getProductCategoriesController = async (req, res, next) => {
   try {
-    const categories = await getCategoriesService();
     res.status(200).json({
       status: 200,
       message: 'Successfully fetched categories!',
-      data: categories,
+      data: CATEGORIES,
     });
   } catch (error) {
     next(error);
