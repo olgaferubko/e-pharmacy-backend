@@ -8,6 +8,7 @@ import { getEnvVar } from './utils/getEnvVar.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { swaggerConfig } from './middlewares/swaggerConfig.js';
+import { initMongoConnection } from "./db/initMongoConnection.js";
 
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
@@ -77,6 +78,7 @@ export async function setupServer() {
   app.use(notFoundHandler);
   app.use(errorHandler);
 
+  await initMongoConnection();
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
