@@ -26,7 +26,7 @@ export const findById = async (id) => {
   const product = await ProductsCollection.findOne({ id }).lean();
   if (!product) throw createHttpError(404, 'Product not found');
 
-  const reviews = await ProductReviewsCollection.find({ productId: id }).lean();
+const reviews = await ProductReviewsCollection.find({ productId: String(id) }).lean();
   return { ...product, reviews };
 };
 
