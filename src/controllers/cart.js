@@ -2,7 +2,7 @@ import { getCart, updateCart, checkoutCart } from '../services/cart.js';
 
 export const getCartItemsController = async (req, res, next) => {
   try {
-    const userId = req.user._id; 
+    const userId = req.user._id;
     const cart = await getCart(userId);
 
     res.status(200).json({
