@@ -41,11 +41,12 @@ export const loginUser = async (payload) => {
   await SessionsCollection.deleteOne({ userId: user._id });
 
   const sessionData = createSessionData();
-
-  return await SessionsCollection.create({
+  const session = await SessionsCollection.create({
     userId: user._id,
     ...sessionData,
   });
+
+  return { ...session.toObject(), user };
 };
 
 export const refreshUser = async ({ sessionId, refreshToken }) => {
