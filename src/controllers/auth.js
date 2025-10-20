@@ -5,6 +5,7 @@ import {
   registerUser,
   logoutUser,
 } from '../services/auth.js';
+import { UsersCollection } from '../db/models/user.js';
 
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
@@ -58,10 +59,15 @@ export const refreshUserController = async (req, res) => {
 
   setupSession(res, session);
 
+  const user = await UsersCollection.findById(session.userId).select("name email _id");
+
   res.status(200).json({
     status: 200,
-    message: 'Successfully refreshed a session!',
-    data: { accessToken: session.accessToken },
+    message: "Successfully refreshed a session!",
+    data: {
+      accessToken: session.accessToken,
+      user,
+    },
   });
 };
 
