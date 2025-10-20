@@ -24,11 +24,15 @@ export const registerUserController = async (req, res) => {
 const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
+    secure: true,
+    sameSite: 'none',
     expires: new Date(session.refreshTokenValidUntil),
   });
 
   res.cookie('sessionId', session._id, {
     httpOnly: true,
+    secure: true,
+    sameSite: 'none',
     expires: new Date(Date.now() + ONE_DAY),
   });
 };
@@ -59,11 +63,11 @@ export const refreshUserController = async (req, res) => {
 
   setupSession(res, session);
 
-  const user = await UsersCollection.findById(session.userId).select("name email _id");
+  const user = await UsersCollection.findById(session.userId).select('name email _id');
 
   res.status(200).json({
     status: 200,
-    message: "Successfully refreshed a session!",
+    message: 'Successfully refreshed a session!',
     data: {
       accessToken: session.accessToken,
       user,
@@ -75,8 +79,9 @@ export const logoutUserController = async (req, res) => {
   if (req.cookies.sessionId) {
     await logoutUser(req.cookies.sessionId);
   }
-  res.clearCookie('sessionId');
-  res.clearCookie('refreshToken');
+
+  res.clearCookie('sessionId', { sameSite: 'none', secure: true });
+  res.clearCookie('refreshToken', { sameSite: 'none', secure: true });
 
   res.status(200).json({
     message: 'Sign out success',
